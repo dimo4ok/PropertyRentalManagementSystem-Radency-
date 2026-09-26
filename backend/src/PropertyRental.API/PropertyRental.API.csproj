@@ -8,6 +8,16 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PropertyRental.Application\PropertyRental.Application.csproj" />
+      <ProjectReference Include="..\PropertyRental.Domain\PropertyRental.Domain.csproj" />
+      <ProjectReference Include="..\PropertyRental.Infrastructure\PropertyRental.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
