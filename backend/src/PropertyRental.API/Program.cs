@@ -2,10 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using PropertyRental.Infrastructure;
 using PropertyRental.Infrastructure.Persistence;
 using PropertyRental.Infrastructure.Persistence.Seeding;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
+
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
@@ -23,6 +28,9 @@ using (var scope = app.Services.CreateScope())
     var seeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
     await seeder.SeedAsync();
 }
+
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 app.Run();
