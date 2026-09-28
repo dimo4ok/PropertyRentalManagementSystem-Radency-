@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using PropertyRental.API.Authentication;
+using PropertyRental.API.Exceptions;
 using PropertyRental.API.Extensions;
+using PropertyRental.Application.Common.Extensions;
 using PropertyRental.Infrastructure;
 using PropertyRental.Infrastructure.Persistence;
 using PropertyRental.Infrastructure.Persistence.Seeding;
@@ -16,6 +18,8 @@ builder.Host.UseSerilog((context, configuration) =>
 builder.Services.AddSwaggerWithAuth();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
+
 builder.Services.AddAppAuthorizationPolicies();
 
 var app = builder.Build();
@@ -39,7 +43,11 @@ app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<GlobalExceptionHandler>();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapAuthEndpoints();
 
 app.Run();
