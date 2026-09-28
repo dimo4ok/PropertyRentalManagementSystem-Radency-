@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using PropertyRental.API.Authentication;
+using PropertyRental.API.Extensions;
 using PropertyRental.Infrastructure;
 using PropertyRental.Infrastructure.Persistence;
 using PropertyRental.Infrastructure.Persistence.Seeding;
@@ -6,18 +8,22 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOpenApi();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
+builder.Services.AddSwaggerWithAuth();
+
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAppAuthorizationPolicies();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 using (var scope = app.Services.CreateScope())
@@ -29,8 +35,11 @@ using (var scope = app.Services.CreateScope())
     await seeder.SeedAsync();
 }
 
-
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.Run();
