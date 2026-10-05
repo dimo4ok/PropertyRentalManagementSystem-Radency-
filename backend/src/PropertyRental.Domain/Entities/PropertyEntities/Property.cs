@@ -8,4 +8,7 @@ public class Property
     public string Address { get; set; } = null!;
 
     public ICollection<Unit> Units { get; set; } = [];
+
+    public byte[] RowVersion { get; set; } = [];
+    public DateTimeOffset UpdatedAt { get; set; }
 }
