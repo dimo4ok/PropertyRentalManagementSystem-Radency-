@@ -8,10 +8,14 @@ using Microsoft.IdentityModel.Tokens;
 using PropertyRental.Application.Authentification.Interfaces;
 using PropertyRental.Application.Common.Configuration;
 using PropertyRental.Application.Interfaces;
+using PropertyRental.Application.PropertyManagement.Interfaces;
+using PropertyRental.Application.RentalManagement.Interfaces;
 using PropertyRental.Domain.Entities.Identity;
 using PropertyRental.Infrastructure.Authentication;
 using PropertyRental.Infrastructure.Persistence;
 using PropertyRental.Infrastructure.Persistence.Seeding;
+using PropertyRental.Infrastructure.PropertyManagement;
+using PropertyRental.Infrastructure.RentalManagement;
 using PropertyRental.Infrastructure.Services;
 
 namespace PropertyRental.Infrastructure;
@@ -38,7 +42,7 @@ public static class InfrastructureExtensions
             })
             .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<AppDbContext>();
-        
+
         // Options
         services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
 
@@ -68,7 +72,10 @@ public static class InfrastructureExtensions
         services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-        
+        services.AddScoped<IPropertyRepository, PropertyRepository>();
+        services.AddScoped<IUnitTypeRepository, UnitTypeRepository>();
+        services.AddScoped<IRentalApplicationRepository, RentalApplicationRepository>();
+
         services.AddHttpContextAccessor();
 
         return services;
