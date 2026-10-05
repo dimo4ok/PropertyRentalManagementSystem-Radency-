@@ -13,4 +13,14 @@ public static class ResultExtensions
             new { errors = result.Errors },
             statusCode: result.StatusCode);
     }
+
+    public static IResult ToHttpResult(this Result result)
+    {
+        if (result.IsSuccess)
+            return Results.Ok();
+
+        return Results.Json(
+            new { errors = result.Errors },
+            statusCode: result.StatusCode);
+    }
 }

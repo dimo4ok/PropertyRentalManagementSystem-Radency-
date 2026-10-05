@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using PropertyRental.API.Extensions;
 using PropertyRental.Application.Common.Extensions;
 using PropertyRental.Application.Common.Models;
 
@@ -20,7 +21,7 @@ public class ValidationFilter<T>(IServiceProvider serviceProvider) : IEndpointFi
 
         var validatorResult = await validator.ValidateAsync(model);
         if (!validatorResult.IsValid)
-            return Results.BadRequest(Result.Fail(validatorResult.Errors.ToErrorList(), 400));
+            return Result.Fail(validatorResult.Errors.ToErrorList(), StatusCodes.Status400BadRequest).ToHttpResult();
 
         return await next(context);
     }
