@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using PropertyRental.API.Authentication;
 using PropertyRental.API.Exceptions;
 using PropertyRental.API.Extensions;
+using PropertyRental.API.PropertyManagement;
 using PropertyRental.Application.Common.Extensions;
 using PropertyRental.Infrastructure;
 using PropertyRental.Infrastructure.Persistence;
@@ -49,5 +50,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapAuthEndpoints();
+app.MapPropertyManagementEndpoints();
 
 app.Run();
