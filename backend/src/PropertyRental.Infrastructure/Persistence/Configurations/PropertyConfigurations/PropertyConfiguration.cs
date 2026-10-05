@@ -22,5 +22,11 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
             .WithOne(x => x.Property)
             .HasForeignKey(x => x.PropertyId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(x => x.UpdatedAt)
+            .IsRequired();
+        
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }
