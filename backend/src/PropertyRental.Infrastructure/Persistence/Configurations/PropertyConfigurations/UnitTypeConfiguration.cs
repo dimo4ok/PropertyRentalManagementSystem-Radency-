@@ -16,5 +16,8 @@ public class UnitTypeConfiguration : IEntityTypeConfiguration<UnitType>
 
         builder.HasIndex(x => x.Name)
             .IsUnique();
+        
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }

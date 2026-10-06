@@ -12,8 +12,8 @@ using PropertyRental.Infrastructure.Persistence;
 namespace PropertyRental.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261005190802_AddRowVersionAndUpdateAtForProperty")]
-    partial class AddRowVersionAndUpdateAtForProperty
+    [Migration("20261006203157_AddRowVersionToPropertyAndUnit")]
+    partial class AddRowVersionToPropertyAndUnit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -255,9 +255,6 @@ namespace PropertyRental.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
                     b.HasKey("Id");
 
                     b.ToTable("Properties");
@@ -278,6 +275,12 @@ namespace PropertyRental.Infrastructure.Persistence.Migrations
 
                     b.Property<Guid>("PropertyId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("UnitNumber")
                         .IsRequired()
@@ -309,6 +312,12 @@ namespace PropertyRental.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 

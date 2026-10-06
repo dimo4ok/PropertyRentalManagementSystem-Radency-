@@ -1,16 +1,31 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace PropertyRental.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRowVersionAndUpdateAtForProperty : Migration
+    public partial class AddRowVersionToPropertyAndUnit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<byte[]>(
+                name: "RowVersion",
+                table: "UnitTypes",
+                type: "rowversion",
+                rowVersion: true,
+                nullable: false,
+                defaultValue: new byte[0]);
+
+            migrationBuilder.AddColumn<byte[]>(
+                name: "RowVersion",
+                table: "Units",
+                type: "rowversion",
+                rowVersion: true,
+                nullable: false,
+                defaultValue: new byte[0]);
+
             migrationBuilder.AddColumn<byte[]>(
                 name: "RowVersion",
                 table: "Properties",
@@ -18,13 +33,6 @@ namespace PropertyRental.Infrastructure.Persistence.Migrations
                 rowVersion: true,
                 nullable: false,
                 defaultValue: new byte[0]);
-
-            migrationBuilder.AddColumn<DateTimeOffset>(
-                name: "UpdatedAt",
-                table: "Properties",
-                type: "datetimeoffset",
-                nullable: false,
-                defaultValue: new DateTimeOffset(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)));
         }
 
         /// <inheritdoc />
@@ -32,10 +40,14 @@ namespace PropertyRental.Infrastructure.Persistence.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "RowVersion",
-                table: "Properties");
+                table: "UnitTypes");
 
             migrationBuilder.DropColumn(
-                name: "UpdatedAt",
+                name: "RowVersion",
+                table: "Units");
+
+            migrationBuilder.DropColumn(
+                name: "RowVersion",
                 table: "Properties");
         }
     }

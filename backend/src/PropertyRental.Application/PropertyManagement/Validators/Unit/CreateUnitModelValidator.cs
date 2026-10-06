@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Unit;
 
-namespace PropertyRental.Application.PropertyManagement.Validators;
+namespace PropertyRental.Application.PropertyManagement.Validators.Unit;
 
-public class UpdateUnitModelValidator : AbstractValidator<UpdateUnitModel>
+public class CreateUnitModelValidator : AbstractValidator<CreateUnitModel>
 {
-    public UpdateUnitModelValidator()
+    public CreateUnitModelValidator()
     {
         RuleFor(x => x.UnitNumber)
             .NotEmpty()

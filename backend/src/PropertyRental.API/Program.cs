@@ -3,6 +3,8 @@ using PropertyRental.API.Authentication;
 using PropertyRental.API.Exceptions;
 using PropertyRental.API.Extensions;
 using PropertyRental.API.PropertyManagement;
+using PropertyRental.API.PropertyManagement.Property;
+using PropertyRental.API.PropertyManagement.Unit;
 using PropertyRental.Application.Common.Extensions;
 using PropertyRental.Infrastructure;
 using PropertyRental.Infrastructure.Persistence;
@@ -50,6 +52,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapAuthEndpoints();
-app.MapPropertyManagementEndpoints();
+app.MapPropertyEndpoints();
+app.MapUnitEndpoints();
 
 app.Run();

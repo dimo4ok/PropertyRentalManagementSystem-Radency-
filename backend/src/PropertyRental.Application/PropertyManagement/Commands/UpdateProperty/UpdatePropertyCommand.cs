@@ -2,4 +2,4 @@
 
 namespace PropertyRental.Application.PropertyManagement.Commands.UpdateProperty;
 
-public record UpdatePropertyCommand(UpdatePropertyModel Model);
+public record UpdatePropertyCommand(Guid Id, UpdatePropertyModel Model);

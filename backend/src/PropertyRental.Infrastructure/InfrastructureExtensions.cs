@@ -72,7 +72,9 @@ public static class InfrastructureExtensions
         services.AddScoped<IUserContextService, UserContextService>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        
         services.AddScoped<IPropertyRepository, PropertyRepository>();
+        services.AddScoped<IUnitRepository, UnitRepository>();
         services.AddScoped<IUnitTypeRepository, UnitTypeRepository>();
         services.AddScoped<IRentalApplicationRepository, RentalApplicationRepository>();
 

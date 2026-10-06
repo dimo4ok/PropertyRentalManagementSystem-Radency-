@@ -1,6 +1,6 @@
-﻿namespace PropertyRental.API.PropertyManagement;
+﻿namespace PropertyRental.API.PropertyManagement.Property;
 
-public static class PropertyManagementRoutes
+public static class PropertyRoutes
 {
     private const string Base = "api/properties";
 

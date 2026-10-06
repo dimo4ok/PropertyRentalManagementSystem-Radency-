@@ -6,23 +6,28 @@ using PropertyRental.Domain.Entities.PropertyEntities;
 
 namespace PropertyRental.Application.RentalManagement.Services;
 
-public class RentalApplicationService(
-    IRentalApplicationRepository rentalApplicationRepository) : IRentalApplicationService
+public class RentalApplicationService(IRentalApplicationRepository rentalApplicationRepository)
+    : IRentalApplicationService
 {
-    private readonly IRentalApplicationRepository _rentalApplicationRepository =
-        rentalApplicationRepository;
+    private readonly IRentalApplicationRepository _rentalApplicationRepository = rentalApplicationRepository;
 
-    public async Task<Result> ValidateCanBeDeletedAsync(IEnumerable<Unit> units, CancellationToken cancellationToken)
+    public async Task<Result> ValidateCanBeDeletedAsync(Guid unitId, CancellationToken cancellationToken)
     {
-        var unitIds = units
-            .Select(x => x.Id)
-            .ToHashSet();
-        if (unitIds.Count == 0) return Result.Success();
-
         var applications = await _rentalApplicationRepository.GetAllAsync(cancellationToken);
 
-        var hasApplications = applications.Any(x => unitIds.Contains(x.UnitId));
-        if (hasApplications)
+        var hasApplication = applications.Any(x => x.UnitId == unitId);
+        if (hasApplication)
+            return Result.Fail(RentalApplicationErrors.UnitHasApplications, StatusCodes.Status400BadRequest);
+
+        return Result.Success();
+    }
+
+    public async Task<Result> ValidateCanBeDeletedAsync(IEnumerable<Guid> unitIds, CancellationToken cancellationToken)
+    {
+        var applications = await _rentalApplicationRepository.GetAllAsync(cancellationToken);
+        var hasApplication = applications.Any(x => unitIds.Contains(x.UnitId));
+
+        if (hasApplication)
             return Result.Fail(RentalApplicationErrors.UnitHasApplications, StatusCodes.Status400BadRequest);
 
         return Result.Success();

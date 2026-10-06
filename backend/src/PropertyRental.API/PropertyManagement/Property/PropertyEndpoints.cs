@@ -12,15 +12,15 @@ using PropertyRental.Application.PropertyManagement.Models;
 using PropertyRental.Application.PropertyManagement.Queries.GetAllProperties;
 using PropertyRental.Application.PropertyManagement.Queries.GetPropertyById;
 
-namespace PropertyRental.API.PropertyManagement;
+namespace PropertyRental.API.PropertyManagement.Property;
 
-public static class PropertyManagementEndpoints
+public static class PropertyEndpoints
 {
-    private const string PropertyManagement = "2.Property Management";
+    private const string PropertyManagement = "2.Property";
 
-    public static void MapPropertyManagementEndpoints(this IEndpointRouteBuilder app)
+    public static void MapPropertyEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet(PropertyManagementRoutes.GetAll,
+        app.MapGet(PropertyRoutes.GetAll,
                 async (
                     [AsParameters] PaginationParams paginationParams,
                     IMediator mediator,
@@ -38,7 +38,7 @@ public static class PropertyManagementEndpoints
             .RequireAuthorization(AuthorizationPolicies.PropertyManager)
             .WithTags(PropertyManagement);
 
-        app.MapGet(PropertyManagementRoutes.GetById,
+        app.MapGet(PropertyRoutes.GetById,
                 async (
                     Guid id,
                     IMediator mediator,
@@ -54,7 +54,7 @@ public static class PropertyManagementEndpoints
             .RequireAuthorization(AuthorizationPolicies.PropertyManager)
             .WithTags(PropertyManagement);
 
-        app.MapPost(PropertyManagementRoutes.Create,
+        app.MapPost(PropertyRoutes.Create,
                 async (
                     CreatePropertyModel model,
                     IMediator mediator,
@@ -70,15 +70,16 @@ public static class PropertyManagementEndpoints
             .AddEndpointFilter<ValidationFilter<CreatePropertyModel>>()
             .WithTags(PropertyManagement);
 
-        app.MapPut(PropertyManagementRoutes.Update,
+        app.MapPut(PropertyRoutes.Update,
                 async (
+                    Guid id,
                     UpdatePropertyModel model,
                     IMediator mediator,
                     CancellationToken cancellationToken
                 ) =>
                 {
                     var response = await mediator.ExecuteCommandAsync<UpdatePropertyCommand, Result>(
-                        new UpdatePropertyCommand(model), cancellationToken);
+                        new UpdatePropertyCommand(id, model), cancellationToken);
 
                     return response.ToHttpResult();
                 })
@@ -86,15 +87,16 @@ public static class PropertyManagementEndpoints
             .AddEndpointFilter<ValidationFilter<UpdatePropertyModel>>()
             .WithTags(PropertyManagement);
 
-        app.MapDelete(PropertyManagementRoutes.Delete,
+        app.MapDelete(PropertyRoutes.Delete,
                 async (
+                    Guid id,
                     [FromBody] DeletePropertyModel model,
                     IMediator mediator,
                     CancellationToken cancellationToken
                 ) =>
                 {
                     var response = await mediator.ExecuteCommandAsync<DeletePropertyCommand, Result>(
-                        new DeletePropertyCommand(model), cancellationToken);
+                        new DeletePropertyCommand(id, model), cancellationToken);
 
                     return response.ToHttpResult();
                 })

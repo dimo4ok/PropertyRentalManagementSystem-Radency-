@@ -22,7 +22,7 @@ public class GetPropertyByIdQueryHandler(
     {
         _logger.LogInformation("Getting property with id {PropertyId}.", query.Id);
 
-        var property = await _propertyRepository.GetByIdAsync(query.Id, cancellationToken);
+        var property = await _propertyRepository.GetByIdWithUnitsAsync(query.Id, false, cancellationToken);
         if (property is null)
         {
             _logger.LogWarning("Property with id {PropertyId} was not found.", query.Id);

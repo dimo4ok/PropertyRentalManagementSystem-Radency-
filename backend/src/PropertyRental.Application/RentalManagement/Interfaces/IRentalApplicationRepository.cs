@@ -4,6 +4,6 @@ namespace PropertyRental.Application.RentalManagement.Interfaces;
 
 public interface IRentalApplicationRepository
 {
-    Task<ICollection<RentalApplication>> GetAllAsync(
-        CancellationToken cancellationToken);
+    Task<RentalApplication?> GetByIdAsync(Guid id, bool track, CancellationToken cancellationToken);
+    Task<ICollection<RentalApplication>> GetAllAsync(CancellationToken cancellationToken = default);
 }

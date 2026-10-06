@@ -24,17 +24,18 @@ public class DeletePropertyCommandHandler(
 
     public async Task<Result> ExecuteAsync(DeletePropertyCommand command, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Deleting property with id {PropertyId}.", command.Model.Id);
+        _logger.LogInformation("Deleting property with id {PropertyId}.", command.Id);
 
-        var property = await _propertyRepository.GetByIdAsync(command.Model.Id, cancellationToken, track: true);
+        var property = await _propertyRepository.GetByIdWithUnitsAsync(command.Id, true, cancellationToken);
         if (property is null)
         {
-            _logger.LogWarning("Property with id {PropertyId} was not found.", command.Model.Id);
+            _logger.LogWarning("Property with id {PropertyId} was not found.", command.Id);
             return Result.Fail(DomainErrors.NotFound(nameof(Property)));
         }
 
-        var validationResult =
-            await _rentalApplicationService.ValidateCanBeDeletedAsync(property.Units, cancellationToken);
+        var unitIds = property.Units.Select(x => x.Id);
+        var validationResult = await _rentalApplicationService.ValidateCanBeDeletedAsync(unitIds, cancellationToken);
+
         if (!validationResult.IsSuccess)
         {
             _logger.LogWarning(

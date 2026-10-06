@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PropertyRental.Application.PropertyManagement.Models;
 
-namespace PropertyRental.Application.PropertyManagement.Validators;
+namespace PropertyRental.Application.PropertyManagement.Validators.Property;
 
 public class CreatePropertyModelValidator : AbstractValidator<CreatePropertyModel>
 {
@@ -14,13 +14,5 @@ public class CreatePropertyModelValidator : AbstractValidator<CreatePropertyMode
         RuleFor(x => x.Address)
             .NotEmpty()
             .MaximumLength(500);
-
-        RuleFor(x => x.Units)
-            .NotNull()
-            .Must(x => x.Count > 0)
-            .WithMessage("At least one unit is required.");
-
-        RuleForEach(x => x.Units)
-            .SetValidator(new CreateUnitModelValidator());
     }
 }

@@ -10,16 +10,8 @@ public static class PropertyExtensions
             entity.Id,
             entity.Name,
             entity.Address,
-            entity.Units.Select(x => x.ToUnitModel()).ToList(),
+            entity.Units.Select(x => x.ToModel()).ToList(),
             Convert.ToBase64String(entity.RowVersion));
-
-    private static UnitModel ToUnitModel(this Unit entity)
-        => new(
-            entity.Id,
-            entity.UnitNumber,
-            entity.Bedrooms,
-            entity.MonthlyRent,
-            entity.UnitType.ToUnitTypeModel());
 
     private static UnitTypeModel ToUnitTypeModel(this UnitType entity)
         => new(
@@ -36,18 +28,6 @@ public static class PropertyExtensions
         => new()
         {
             Name = model.Name,
-            Address = model.Address,
-            Units = model.Units
-                .Select(x => x.ToEntity())
-                .ToList()
-        };
-
-    private static Unit ToEntity(this CreateUnitModel model)
-        => new()
-        {
-            UnitNumber = model.UnitNumber,
-            Bedrooms = model.Bedrooms,
-            MonthlyRent = model.MonthlyRent,
-            UnitTypeId = model.UnitTypeId
+            Address = model.Address
         };
 }

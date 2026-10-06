@@ -12,4 +12,6 @@ public class Unit
 
     public Guid UnitTypeId { get; set; }
     public UnitType UnitType { get; set; } = null!;
+    
+    public byte[] RowVersion { get; set; } = [];
 }

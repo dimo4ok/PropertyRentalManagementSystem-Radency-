@@ -6,4 +6,6 @@ public class UnitType
 
     public string Name { get; set; } = null!;
     public bool IsActive { get; set; } = true;
+    
+    public byte[] RowVersion { get; set; } = [];
 }

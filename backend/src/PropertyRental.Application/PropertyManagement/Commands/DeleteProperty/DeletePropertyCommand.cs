@@ -2,4 +2,4 @@
 
 namespace PropertyRental.Application.PropertyManagement.Commands.DeleteProperty;
 
-public record DeletePropertyCommand(DeletePropertyModel Model);
+public record DeletePropertyCommand(Guid Id, DeletePropertyModel Model);

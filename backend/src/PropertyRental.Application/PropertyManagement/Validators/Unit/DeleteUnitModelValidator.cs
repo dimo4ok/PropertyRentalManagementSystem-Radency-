@@ -1,15 +1,12 @@
 ﻿using FluentValidation;
-using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Unit;
 
-namespace PropertyRental.Application.PropertyManagement.Validators;
+namespace PropertyRental.Application.PropertyManagement.Validators.Unit;
 
-public class DeletePropertyModelValidator : AbstractValidator<DeletePropertyModel>
+public class DeleteUnitModelValidator : AbstractValidator<DeleteUnitModel>
 {
-    public DeletePropertyModelValidator()
+    public DeleteUnitModelValidator()
     {
-        RuleFor(x => x.Id)
-            .NotEmpty();
-
         RuleFor(x => x.RowVersion)
             .NotEmpty()
             .Must(BeValidBase64)

@@ -10,5 +10,4 @@ public class Property
     public ICollection<Unit> Units { get; set; } = [];
 
     public byte[] RowVersion { get; set; } = [];
-    public DateTimeOffset UpdatedAt { get; set; }
 }

@@ -5,5 +5,7 @@ namespace PropertyRental.Application.RentalManagement.Interfaces;
 
 public interface IRentalApplicationService
 {
-    Task<Result> ValidateCanBeDeletedAsync(IEnumerable<Unit> units, CancellationToken cancellationToken);
+    Task<Result> ValidateCanBeDeletedAsync(Guid unitId, CancellationToken cancellationToken);
+    Task<Result> ValidateCanBeDeletedAsync(IEnumerable<Guid> unitIds, CancellationToken cancellationToken);
+    
 }

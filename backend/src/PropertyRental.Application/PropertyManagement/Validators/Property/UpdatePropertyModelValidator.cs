@@ -1,15 +1,12 @@
 ﻿using FluentValidation;
 using PropertyRental.Application.PropertyManagement.Models;
 
-namespace PropertyRental.Application.PropertyManagement.Validators;
+namespace PropertyRental.Application.PropertyManagement.Validators.Property;
 
 public class UpdatePropertyModelValidator : AbstractValidator<UpdatePropertyModel>
 {
     public UpdatePropertyModelValidator()
     {
-        RuleFor(x => x.Id)
-            .NotEmpty();
-
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(200);
@@ -18,18 +15,10 @@ public class UpdatePropertyModelValidator : AbstractValidator<UpdatePropertyMode
             .NotEmpty()
             .MaximumLength(500);
 
-        RuleFor(x => x.Units)
-            .NotNull()
-            .Must(x => x.Count > 0)
-            .WithMessage("At least one unit is required.");
-
         RuleFor(x => x.RowVersion)
             .NotEmpty()
             .Must(BeValidBase64)
             .WithMessage("RowVersion must be a valid Base64 string.");
-
-        RuleForEach(x => x.Units)
-            .SetValidator(new UpdateUnitModelValidator());
     }
 
     private static bool BeValidBase64(string value)

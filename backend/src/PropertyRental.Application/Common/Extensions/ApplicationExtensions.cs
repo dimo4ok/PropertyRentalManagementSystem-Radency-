@@ -19,7 +19,6 @@ public static class ApplicationExtensions
         services.AddScoped<IMediator, Mediator.Mediator>().AddMediatorHandlers();
         services.AddScoped<ITokenFactory, TokenFactory>();
 
-        services.AddScoped<IUnitService, UnitService>();
         services.AddScoped<IUnitTypeService, UnitTypeService>();
         services.AddScoped<IRentalApplicationService, RentalApplicationService>();
 

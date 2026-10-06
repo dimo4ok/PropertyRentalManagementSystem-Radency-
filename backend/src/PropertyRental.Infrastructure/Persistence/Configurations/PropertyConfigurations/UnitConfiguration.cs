@@ -26,5 +26,8 @@ public class UnitConfiguration : IEntityTypeConfiguration<Unit>
             .WithMany()
             .HasForeignKey(x => x.UnitTypeId)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }

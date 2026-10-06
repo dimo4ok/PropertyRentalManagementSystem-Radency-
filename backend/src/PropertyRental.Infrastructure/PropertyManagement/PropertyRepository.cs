@@ -9,7 +9,18 @@ public class PropertyRepository(AppDbContext dbContext) : IPropertyRepository
 {
     private readonly AppDbContext _dbContext = dbContext;
 
-    public async Task<Property?> GetByIdAsync(Guid id, CancellationToken cancellationToken, bool track = false)
+    public async Task<Property?> GetByIdAsync(Guid id, bool track = false,
+        CancellationToken cancellationToken = default)
+    {
+        var query = track
+            ? _dbContext.Properties
+            : _dbContext.Properties.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
+
+    public async Task<Property?> GetByIdWithUnitsAsync(Guid id, bool track = false,
+        CancellationToken cancellationToken = default)
     {
         var query = track
             ? _dbContext.Properties

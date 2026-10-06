@@ -9,8 +9,17 @@ public class RentalApplicationRepository(AppDbContext dbContext) : IRentalApplic
 {
     private readonly AppDbContext _dbContext = dbContext;
 
-    public async Task<ICollection<RentalApplication>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<ICollection<RentalApplication>> GetAllAsync(CancellationToken cancellationToken = default)
         => await _dbContext.RentalApplications
             .AsNoTracking()
             .ToListAsync(cancellationToken);
+
+    public async Task<RentalApplication?> GetByIdAsync(Guid id, bool track = false, CancellationToken cancellationToken = default)
+    {
+        var query = track
+            ? _dbContext.RentalApplications
+            : _dbContext.RentalApplications.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+    }
 }
