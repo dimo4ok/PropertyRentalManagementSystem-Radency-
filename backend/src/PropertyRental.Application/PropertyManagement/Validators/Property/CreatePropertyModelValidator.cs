@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Property;
 
 namespace PropertyRental.Application.PropertyManagement.Validators.Property;
 

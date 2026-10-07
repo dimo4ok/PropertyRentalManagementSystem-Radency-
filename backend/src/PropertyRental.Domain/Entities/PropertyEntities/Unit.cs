@@ -1,4 +1,6 @@
-﻿namespace PropertyRental.Domain.Entities.PropertyEntities;
+﻿using PropertyRental.Domain.Entities.RentalEntities;
+
+namespace PropertyRental.Domain.Entities.PropertyEntities;
 
 public class Unit
 {
@@ -12,6 +14,8 @@ public class Unit
 
     public Guid UnitTypeId { get; set; }
     public UnitType UnitType { get; set; } = null!;
-    
+
+    public ICollection<Lease> Leases { get; set; } = [];
+
     public byte[] RowVersion { get; set; } = [];
 }

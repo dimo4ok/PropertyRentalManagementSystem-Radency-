@@ -1,4 +1,6 @@
 ﻿using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Property;
+using PropertyRental.Application.PropertyManagement.Models.UnitType;
 using PropertyRental.Domain.Entities.PropertyEntities;
 
 namespace PropertyRental.Application.PropertyManagement.Extensions;

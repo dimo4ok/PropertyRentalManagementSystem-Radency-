@@ -2,11 +2,12 @@
 
 public static class PropertyRoutes
 {
-    private const string Base = "api/properties";
+    private const string Base = "api/manager/properties";
+    private const string ById = $"/{{id:guid}}";
 
     public const string GetAll = Base;
-    public const string GetById = $"{Base}/{{id}}";
+    public const string GetById = $"{Base}{ById}";
     public const string Create = Base;
-    public const string Update = $"{Base}/{{id}}";
-    public const string Delete = $"{Base}/{{id}}";
+    public const string Update = $"{Base}{ById}";
+    public const string Delete = $"{Base}{ById}";
 }

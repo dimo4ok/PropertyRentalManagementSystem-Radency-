@@ -9,6 +9,7 @@ using PropertyRental.Application.PropertyManagement.Commands.CreateProperty;
 using PropertyRental.Application.PropertyManagement.Commands.DeleteProperty;
 using PropertyRental.Application.PropertyManagement.Commands.UpdateProperty;
 using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Property;
 using PropertyRental.Application.PropertyManagement.Queries.GetAllProperties;
 using PropertyRental.Application.PropertyManagement.Queries.GetPropertyById;
 
@@ -16,7 +17,7 @@ namespace PropertyRental.API.PropertyManagement.Property;
 
 public static class PropertyEndpoints
 {
-    private const string PropertyManagement = "2.Property";
+    private const string PropertyManagement = "2.Manager - Property";
 
     public static void MapPropertyEndpoints(this IEndpointRouteBuilder app)
     {
@@ -36,6 +37,7 @@ public static class PropertyEndpoints
                     return response.ToHttpResult();
                 })
             .RequireAuthorization(AuthorizationPolicies.PropertyManager)
+            .AddEndpointFilter<ValidationFilter<PaginationParams>>()
             .WithTags(PropertyManagement);
 
         app.MapGet(PropertyRoutes.GetById,

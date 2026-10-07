@@ -20,7 +20,7 @@ public class LeaseConfiguration : IEntityTypeConfiguration<Lease>
             .IsRequired();
 
         builder.HasOne(x => x.Unit)
-            .WithMany()
+            .WithMany(x => x.Leases)
             .HasForeignKey(x => x.UnitId)
             .OnDelete(DeleteBehavior.SetNull);
 

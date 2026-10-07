@@ -9,6 +9,12 @@ public class UnitRepository(AppDbContext dbContext) : IUnitRepository
 {
     private readonly AppDbContext _dbContext = dbContext;
 
+    public IQueryable<Unit> GetAllByQuery()
+        => _dbContext.Units
+            .AsNoTracking()
+            .Include(x => x.UnitType)
+            .Include(x => x.Leases);
+
     public async Task<Unit?> GetByIdAsync(Guid id, bool track = false, CancellationToken cancellationToken = default)
     {
         var query = track

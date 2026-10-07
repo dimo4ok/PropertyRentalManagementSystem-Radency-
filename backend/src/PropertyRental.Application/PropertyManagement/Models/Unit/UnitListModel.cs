@@ -2,10 +2,9 @@
 
 namespace PropertyRental.Application.PropertyManagement.Models.Unit;
 
-public record UnitModel(
+public record UnitListModel(
     Guid Id,
     string UnitNumber,
     int Bedrooms,
     decimal MonthlyRent,
-    UnitTypeModel UnitType,
-    string RowVersion);
+    UnitTypeModel UnitType);

@@ -8,6 +8,7 @@ using PropertyRental.Application.Common.Models.Pagination;
 using PropertyRental.Application.PropertyManagement.Extensions;
 using PropertyRental.Application.PropertyManagement.Interfaces;
 using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Property;
 using PropertyRental.Domain.Entities.PropertyEntities;
 
 namespace PropertyRental.Application.PropertyManagement.Queries.GetAllProperties;

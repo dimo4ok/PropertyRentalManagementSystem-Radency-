@@ -1,4 +1,4 @@
-﻿namespace PropertyRental.Application.PropertyManagement.Models;
+﻿namespace PropertyRental.Application.PropertyManagement.Models.Property;
 
 public record PropertyListModel(
     Guid Id,

@@ -13,6 +13,9 @@ using PropertyRental.Application.PropertyManagement.Commands.DeleteUnit;
 using PropertyRental.Application.PropertyManagement.Commands.UpdateProperty;
 using PropertyRental.Application.PropertyManagement.Commands.UpdateUnit;
 using PropertyRental.Application.PropertyManagement.Models;
+using PropertyRental.Application.PropertyManagement.Models.Property;
+using PropertyRental.Application.PropertyManagement.Models.Unit;
+using PropertyRental.Application.PropertyManagement.Queries.GetAllAvailableUnits;
 using PropertyRental.Application.PropertyManagement.Queries.GetAllProperties;
 using PropertyRental.Application.PropertyManagement.Queries.GetPropertyById;
 
@@ -39,7 +42,10 @@ public static class MediatorHandlerExtensions
         services.AddScoped<ICommandHandler<CreateUnitCommand, Result>, CreateUnitCommandHandler>();
         services.AddScoped<ICommandHandler<UpdateUnitCommand, Result>, UpdateUnitCommandHandler>();
         services.AddScoped<ICommandHandler<DeleteUnitCommand, Result>, DeleteUnitCommandHandler>();
-        
+
+        services.AddScoped<IQueryHandler<GetAvailableUnitsQuery, Result<PaginatedModel<UnitListModel>>>,
+            GetAvailableUnitsQueryHandler>();
+
         return services;
     }
 }
