@@ -8,7 +8,6 @@ using PropertyRental.Application.Common.Models.Pagination;
 using PropertyRental.Application.PropertyManagement.Commands.CreateProperty;
 using PropertyRental.Application.PropertyManagement.Commands.DeleteProperty;
 using PropertyRental.Application.PropertyManagement.Commands.UpdateProperty;
-using PropertyRental.Application.PropertyManagement.Models;
 using PropertyRental.Application.PropertyManagement.Models.Property;
 using PropertyRental.Application.PropertyManagement.Queries.GetAllProperties;
 using PropertyRental.Application.PropertyManagement.Queries.GetPropertyById;
