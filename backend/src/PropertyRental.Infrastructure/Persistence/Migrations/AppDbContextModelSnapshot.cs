@@ -254,6 +254,9 @@ namespace PropertyRental.Infrastructure.Persistence
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name", "Address")
+                        .IsUnique();
+
                     b.ToTable("Properties");
                 });
 
@@ -289,9 +292,10 @@ namespace PropertyRental.Infrastructure.Persistence
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PropertyId");
-
                     b.HasIndex("UnitTypeId");
+
+                    b.HasIndex("PropertyId", "UnitNumber")
+                        .IsUnique();
 
                     b.ToTable("Units");
                 });
@@ -443,7 +447,7 @@ namespace PropertyRental.Infrastructure.Persistence
 
                     b.HasIndex("UnitId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "Status", "CreatedAt", "Id");
 
                     b.ToTable("RentalApplications");
                 });
