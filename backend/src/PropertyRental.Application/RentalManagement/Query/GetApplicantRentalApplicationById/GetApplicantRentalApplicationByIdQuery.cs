@@ -1,0 +1,3 @@
+﻿namespace PropertyRental.Application.RentalManagement.Query.GetApplicantRentalApplicationById;
+
+public record GetApplicantRentalApplicationByIdQuery(Guid Id);
