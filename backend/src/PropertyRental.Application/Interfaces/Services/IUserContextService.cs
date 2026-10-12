@@ -1,6 +1,6 @@
 ﻿using PropertyRental.Application.Common.Models;
 
-namespace PropertyRental.Application.Interfaces;
+namespace PropertyRental.Application.Interfaces.Services;
 
 public interface IUserContextService
 {

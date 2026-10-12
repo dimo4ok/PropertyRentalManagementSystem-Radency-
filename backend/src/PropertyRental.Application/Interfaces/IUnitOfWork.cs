@@ -5,9 +5,6 @@ namespace PropertyRental.Application.Interfaces;
 
 public interface IUnitOfWork
 {
-    Task<IDbContextTransaction> BeginTransactionAsync(
-        IsolationLevel isolationLevel = IsolationLevel.ReadCommitted,
-        CancellationToken cancellationToken = default);
-
+    Task<IDbContextTransaction> BeginTransactionAsync( IsolationLevel isolationLevel = IsolationLevel.ReadCommitted, CancellationToken cancellationToken = default);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

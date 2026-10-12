@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PropertyRental.Application.PropertyManagement.Interfaces;
+using PropertyRental.Application.Interfaces.Repositories;
 using PropertyRental.Domain.Entities.PropertyEntities;
 using PropertyRental.Infrastructure.Persistence;
 
-namespace PropertyRental.Infrastructure.PropertyManagement;
+namespace PropertyRental.Infrastructure.PropertyManagement.Repositories;
 
 public class PropertyRepository(AppDbContext dbContext) : IPropertyRepository
 {
@@ -19,8 +19,7 @@ public class PropertyRepository(AppDbContext dbContext) : IPropertyRepository
         return await query.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
-    public async Task<Property?> GetByIdWithUnitsAsync(Guid id, bool track = false,
-        CancellationToken cancellationToken = default)
+    public async Task<Property?> GetByIdWithUnitsAndUnitTypesAsync(Guid id, bool track = false, CancellationToken cancellationToken = default)
     {
         var query = track
             ? _dbContext.Properties
@@ -31,9 +30,6 @@ public class PropertyRepository(AppDbContext dbContext) : IPropertyRepository
             .ThenInclude(x => x.UnitType)
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
-
-    public IQueryable<Property> GetAllAsync()
-        => _dbContext.Properties.AsNoTracking();
 
     public async Task CreateAsync(Property property, CancellationToken cancellationToken = default) =>
         await _dbContext.Properties.AddAsync(property, cancellationToken);
