@@ -43,5 +43,13 @@ public class RentalApplicationConfiguration : IEntityTypeConfiguration<RentalApp
             .WithOne(x => x.RentalApplication)
             .HasForeignKey(x => x.RentalApplicationId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.StatusHistory)
+            .WithOne(x => x.RentalApplication)
+            .HasForeignKey(x => x.RentalApplicationId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Property(x => x.RowVersion)
+            .IsRowVersion();
     }
 }

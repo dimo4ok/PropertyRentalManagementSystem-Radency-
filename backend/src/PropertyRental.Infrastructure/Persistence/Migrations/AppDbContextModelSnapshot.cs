@@ -421,6 +421,12 @@ namespace PropertyRental.Infrastructure.Persistence
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
@@ -558,7 +564,7 @@ namespace PropertyRental.Infrastructure.Persistence
                         .IsRequired();
 
                     b.HasOne("PropertyRental.Domain.Entities.RentalEntities.RentalApplication", "RentalApplication")
-                        .WithMany()
+                        .WithMany("StatusHistory")
                         .HasForeignKey("RentalApplicationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -634,6 +640,8 @@ namespace PropertyRental.Infrastructure.Persistence
             modelBuilder.Entity("PropertyRental.Domain.Entities.RentalEntities.RentalApplication", b =>
                 {
                     b.Navigation("ResidenceHistory");
+
+                    b.Navigation("StatusHistory");
                 });
 #pragma warning restore 612, 618
         }

@@ -24,10 +24,5 @@ public class ResidenceConfiguration : IEntityTypeConfiguration<Residence>
 
         builder.Property(x => x.MoveInDate)
             .IsRequired();
-
-        builder.HasOne(x => x.RentalApplication)
-            .WithMany(x => x.ResidenceHistory)
-            .HasForeignKey(x => x.RentalApplicationId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

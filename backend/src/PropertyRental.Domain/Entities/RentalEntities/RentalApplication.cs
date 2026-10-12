@@ -25,4 +25,7 @@ public class RentalApplication
     public DateTimeOffset UpdatedAt { get; set; }
 
     public ICollection<Residence> ResidenceHistory { get; set; } = [];
+    public ICollection<ApplicationStatusHistory> StatusHistory { get; set; } = [];
+    
+    public byte[] RowVersion { get; set; } = [];
 }

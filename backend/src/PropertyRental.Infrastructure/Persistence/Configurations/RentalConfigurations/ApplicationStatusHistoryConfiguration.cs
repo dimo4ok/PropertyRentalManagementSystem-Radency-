@@ -16,11 +16,6 @@ public class ApplicationStatusHistoryConfiguration : IEntityTypeConfiguration<Ap
         builder.Property(x => x.Comment)
             .HasMaxLength(1000);
 
-        builder.HasOne(x => x.RentalApplication)
-            .WithMany()
-            .HasForeignKey(x => x.RentalApplicationId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasOne(x => x.ChangedByUser)
             .WithMany()
             .HasForeignKey(x => x.ChangedByUserId)
