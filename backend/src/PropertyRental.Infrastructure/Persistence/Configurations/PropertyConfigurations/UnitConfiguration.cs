@@ -29,5 +29,8 @@ public class UnitConfiguration : IEntityTypeConfiguration<Unit>
 
         builder.Property(x => x.RowVersion)
             .IsRowVersion();
+        
+        builder.HasIndex(unit => new { unit.PropertyId, unit.UnitNumber })
+            .IsUnique();
     }
 }

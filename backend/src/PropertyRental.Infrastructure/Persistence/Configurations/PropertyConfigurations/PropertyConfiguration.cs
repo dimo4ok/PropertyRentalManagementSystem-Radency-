@@ -25,5 +25,8 @@ public class PropertyConfiguration : IEntityTypeConfiguration<Property>
         
         builder.Property(x => x.RowVersion)
             .IsRowVersion();
+        
+        builder.HasIndex(property => new { property.Name, property.Address })
+            .IsUnique();
     }
 }

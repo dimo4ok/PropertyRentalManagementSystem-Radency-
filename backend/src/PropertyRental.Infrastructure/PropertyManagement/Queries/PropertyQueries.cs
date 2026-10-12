@@ -15,7 +15,17 @@ public class PropertyQueries(AppDbContext dbContext) : IPropertyQueries
     public async Task<PaginatedModel<PropertyListModel>> GetAllPaginatedAsync(PaginationParams paginationParams, CancellationToken cancellationToken)
     {
         var query = _dbContext.Properties.Select(x => x.ToPropertyListModel());
-        
+
         return await query.PaginateAsync(paginationParams.PageNumber, paginationParams.PageSize, cancellationToken);
     }
+
+    public async Task<bool> ExistsAsync(string name, string address, CancellationToken cancellationToken,  Guid? excludePropertyId = null )
+        => await _dbContext.Properties
+            .AnyAsync(
+                property =>
+                    property.Name == name &&
+                    property.Address == address &&
+                    (!excludePropertyId.HasValue ||
+                     property.Id != excludePropertyId.Value),
+                cancellationToken);
 }

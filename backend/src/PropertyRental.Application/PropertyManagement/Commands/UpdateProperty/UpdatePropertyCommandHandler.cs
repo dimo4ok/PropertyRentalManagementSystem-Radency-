@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using PropertyRental.Application.Common.Errors;
 using PropertyRental.Application.Common.Mediator.Abstractions;
 using PropertyRental.Application.Common.Models;
 using PropertyRental.Application.Interfaces;
+using PropertyRental.Application.Interfaces.Queries;
 using PropertyRental.Application.Interfaces.Repositories;
 using PropertyRental.Domain.Entities.PropertyEntities;
 
@@ -10,11 +12,13 @@ namespace PropertyRental.Application.PropertyManagement.Commands.UpdateProperty;
 
 public class UpdatePropertyCommandHandler(
     IPropertyRepository propertyRepository,
+    IPropertyQueries propertyQueries,
     IUnitOfWork unitOfWork,
     ILogger<UpdatePropertyCommandHandler> logger)
     : ICommandHandler<UpdatePropertyCommand, Result>
 {
     private readonly IPropertyRepository _propertyRepository = propertyRepository;
+    private readonly IPropertyQueries _propertyQueries = propertyQueries;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ILogger<UpdatePropertyCommandHandler> _logger = logger;
 
@@ -27,6 +31,14 @@ public class UpdatePropertyCommandHandler(
         {
             _logger.LogWarning("Property with id {PropertyId} was not found.", command.Id);
             return Result.Fail(DomainErrors.NotFound(nameof(Property)));
+        }
+        
+        if (await _propertyQueries.ExistsAsync(command.Model.Name, command.Model.Address, cancellationToken, excludePropertyId: property.Id))
+        {
+            _logger.LogWarning(
+                "Property with name {PropertyName} and address {PropertyAddress} already exists.", command.Model.Name, command.Model.Address);
+
+            return Result.Fail(DomainErrors.AlreadyExists(nameof(Property)), StatusCodes.Status409Conflict);
         }
 
         var rowVersion = Convert.FromBase64String(command.Model.RowVersion);

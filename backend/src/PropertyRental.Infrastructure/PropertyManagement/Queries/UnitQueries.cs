@@ -12,8 +12,7 @@ public class UnitQueries(AppDbContext dbContext) : IUnitQueries
 {
     private readonly AppDbContext _dbContext = dbContext;
 
-    public async Task<PaginatedModel<UnitListModel>> GetAvailableUnitsPaginatedAsync(PaginationParams paginationParams,
-        CancellationToken cancellationToken)
+    public async Task<PaginatedModel<UnitListModel>> GetAvailableUnitsPaginatedAsync(PaginationParams paginationParams, CancellationToken cancellationToken)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
 
@@ -40,4 +39,13 @@ public class UnitQueries(AppDbContext dbContext) : IUnitQueries
                         lease.EndDate >= today),
                 cancellationToken);
     }
+
+    public async Task<bool> ExistsAsync(Guid propertyId, string unitNumber, CancellationToken cancellationToken, Guid? excludeUnitId = null)
+        => await _dbContext.Units
+            .AnyAsync(
+                unit => unit.PropertyId == propertyId &&
+                        unit.UnitNumber == unitNumber &&
+                        (!excludeUnitId.HasValue ||
+                         unit.Id != excludeUnitId.Value),
+                cancellationToken);
 }

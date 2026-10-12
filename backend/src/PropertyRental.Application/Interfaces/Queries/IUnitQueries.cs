@@ -7,4 +7,5 @@ public interface IUnitQueries
 {
     Task<PaginatedModel<UnitListModel>> GetAvailableUnitsPaginatedAsync(PaginationParams paginationParams, CancellationToken cancellationToken);
     Task<bool> IsAvailableAsync(Guid unitId, CancellationToken cancellationToken);
+    Task<bool> ExistsAsync( Guid propertyId, string unitNumber, CancellationToken cancellationToken, Guid? excludeUnitId = null);
 }

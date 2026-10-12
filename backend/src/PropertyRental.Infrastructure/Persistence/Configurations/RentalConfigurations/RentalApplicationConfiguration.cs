@@ -51,5 +51,13 @@ public class RentalApplicationConfiguration : IEntityTypeConfiguration<RentalApp
         
         builder.Property(x => x.RowVersion)
             .IsRowVersion();
+        
+        builder.HasIndex(x => new
+        {
+            x.UserId,
+            x.Status,
+            x.CreatedAt,
+            x.Id
+        });
     }
 }

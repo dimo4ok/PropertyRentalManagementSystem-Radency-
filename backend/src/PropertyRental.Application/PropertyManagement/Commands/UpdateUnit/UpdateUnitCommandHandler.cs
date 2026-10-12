@@ -16,6 +16,7 @@ public class UpdateUnitCommandHandler(
     IUnitTypeService unitTypeService,
     ILeaseQueries leaseQueries,
     IRentalApplicationQueries rentalApplicationQueries,
+    IUnitQueries unitQueries,
     IUnitOfWork unitOfWork,
     ILogger<UpdateUnitCommandHandler> logger)
     : ICommandHandler<UpdateUnitCommand, Result>
@@ -24,6 +25,7 @@ public class UpdateUnitCommandHandler(
     private readonly IUnitTypeService _unitTypeService = unitTypeService;
     private readonly ILeaseQueries _leaseQueries = leaseQueries;
     private readonly IRentalApplicationQueries _rentalApplicationQueries = rentalApplicationQueries;
+    private readonly IUnitQueries _unitQueries = unitQueries;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ILogger<UpdateUnitCommandHandler> _logger = logger;
 
@@ -38,6 +40,13 @@ public class UpdateUnitCommandHandler(
         
         var rowVersion = Convert.FromBase64String(command.Model.RowVersion);
         _unitRepository.SetOriginalRowVersion(unit, rowVersion);
+        
+        if (await _unitQueries.ExistsAsync(unit.PropertyId, command.Model.UnitNumber, cancellationToken, excludeUnitId: unit.Id))
+        {
+            _logger.LogWarning("Unit {UnitNumber} already exists for property {PropertyId}.", command.Model.UnitNumber, unit.PropertyId);
+
+            return Result.Fail(DomainErrors.AlreadyExists(nameof(Unit)), StatusCodes.Status409Conflict);
+        }
 
         if (unit.UnitTypeId != command.Model.UnitTypeId)
         {

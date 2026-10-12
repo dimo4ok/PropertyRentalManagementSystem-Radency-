@@ -6,4 +6,5 @@ namespace PropertyRental.Application.Interfaces.Queries;
 public interface IPropertyQueries
 {
     Task<PaginatedModel<PropertyListModel>> GetAllPaginatedAsync(PaginationParams paginationParams, CancellationToken cancellationToken);
+    Task<bool> ExistsAsync(string name, string address, CancellationToken cancellationToken, Guid? excludePropertyId = null);
 }
