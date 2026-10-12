@@ -1,0 +1,5 @@
+﻿using PropertyRental.Application.RentalManagement.Models.RentalApplication;
+
+namespace PropertyRental.Application.RentalManagement.Command.ReturnRentalApplication;
+
+public record ReturnRentalApplicationCommand(Guid Id, RentalApplicationReviewModel ReviewModel);

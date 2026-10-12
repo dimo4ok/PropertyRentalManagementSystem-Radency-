@@ -1,0 +1,5 @@
+﻿using PropertyRental.Application.RentalManagement.Models.RentalApplication;
+
+namespace PropertyRental.Application.RentalManagement.Command.ApproveRentalApplication;
+
+public record ApproveRentalApplicationCommand(Guid Id, ApproveRentalApplicationModel Model);

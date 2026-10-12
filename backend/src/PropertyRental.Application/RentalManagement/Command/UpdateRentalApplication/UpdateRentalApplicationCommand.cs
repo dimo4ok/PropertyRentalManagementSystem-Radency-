@@ -1,0 +1,5 @@
+﻿using PropertyRental.Application.RentalManagement.Models.RentalApplication;
+
+namespace PropertyRental.Application.RentalManagement.Command.UpdateRentalApplication;
+
+public record UpdateRentalApplicationCommand(Guid Id, UpdateRentalApplicationModel Model);
