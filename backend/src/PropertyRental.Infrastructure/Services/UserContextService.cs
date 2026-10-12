@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using PropertyRental.Application.Common.Models;
 using PropertyRental.Application.Interfaces;
+using PropertyRental.Application.Interfaces.Services;
 using PropertyRental.Domain.Entities.Enums;
 
 namespace PropertyRental.Infrastructure.Services;
