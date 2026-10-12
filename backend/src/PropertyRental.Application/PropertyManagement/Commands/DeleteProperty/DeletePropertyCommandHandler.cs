@@ -4,21 +4,21 @@ using PropertyRental.Application.Common.Errors;
 using PropertyRental.Application.Common.Mediator.Abstractions;
 using PropertyRental.Application.Common.Models;
 using PropertyRental.Application.Interfaces;
-using PropertyRental.Application.PropertyManagement.Interfaces;
-using PropertyRental.Application.RentalManagement.Interfaces;
+using PropertyRental.Application.Interfaces.Queries;
+using PropertyRental.Application.Interfaces.Repositories;
 using PropertyRental.Domain.Entities.PropertyEntities;
 
 namespace PropertyRental.Application.PropertyManagement.Commands.DeleteProperty;
 
 public class DeletePropertyCommandHandler(
     IPropertyRepository propertyRepository,
-    IRentalApplicationService rentalApplicationService,
+    IRentalApplicationQueries rentalApplicationQueries,
     IUnitOfWork unitOfWork,
     ILogger<DeletePropertyCommandHandler> logger)
     : ICommandHandler<DeletePropertyCommand, Result>
 {
     private readonly IPropertyRepository _propertyRepository = propertyRepository;
-    private readonly IRentalApplicationService _rentalApplicationService = rentalApplicationService;
+    private readonly IRentalApplicationQueries _rentalApplicationQueries = rentalApplicationQueries;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ILogger<DeletePropertyCommandHandler> _logger = logger;
 
@@ -26,7 +26,7 @@ public class DeletePropertyCommandHandler(
     {
         _logger.LogInformation("Deleting property with id {PropertyId}.", command.Id);
 
-        var property = await _propertyRepository.GetByIdWithUnitsAsync(command.Id, true, cancellationToken);
+        var property = await _propertyRepository.GetByIdAsync(command.Id, true, cancellationToken);
         if (property is null)
         {
             _logger.LogWarning("Property with id {PropertyId} was not found.", command.Id);
@@ -34,14 +34,15 @@ public class DeletePropertyCommandHandler(
         }
 
         var unitIds = property.Units.Select(x => x.Id);
-        var validationResult = await _rentalApplicationService.ValidateCanBeDeletedAsync(unitIds, cancellationToken);
-
-        if (!validationResult.IsSuccess)
+        var hasApplicationForAnyUnit = await _rentalApplicationQueries.HasApplicationForAnyUnitAsync(unitIds, cancellationToken);
+        
+        if (hasApplicationForAnyUnit)
         {
             _logger.LogWarning(
                 "Property {PropertyId} cannot be deleted because one or more units have rental applications.",
                 property.Id);
-            return validationResult;
+            
+            return Result.Fail(RentalApplicationErrors.UnitHasApplications, StatusCodes.Status400BadRequest);
         }
 
         var rowVersion = Convert.FromBase64String(command.Model.RowVersion);

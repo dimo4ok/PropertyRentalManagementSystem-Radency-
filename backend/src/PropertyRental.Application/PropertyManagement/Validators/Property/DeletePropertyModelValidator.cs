@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using PropertyRental.Application.Common.Validator;
 using PropertyRental.Application.PropertyManagement.Models;
 using PropertyRental.Application.PropertyManagement.Models.Property;
 
@@ -8,22 +9,7 @@ public class DeletePropertyModelValidator : AbstractValidator<DeletePropertyMode
 {
     public DeletePropertyModelValidator()
     {
-        RuleFor(x => x.RowVersion)
-            .NotEmpty()
-            .Must(BeValidBase64)
-            .WithMessage("RowVersion must be a valid Base64 string.");
-    }
-
-    private static bool BeValidBase64(string value)
-    {
-        try
-        {
-            Convert.FromBase64String(value);
-            return true;
-        }
-        catch (FormatException)
-        {
-            return false;
-        }
+        RuleFor(x => x.RowVersion) 
+            .ValidRowVersion();
     }
 }

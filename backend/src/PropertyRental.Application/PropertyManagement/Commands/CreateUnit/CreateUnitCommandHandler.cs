@@ -4,8 +4,9 @@ using PropertyRental.Application.Common.Errors;
 using PropertyRental.Application.Common.Mediator.Abstractions;
 using PropertyRental.Application.Common.Models;
 using PropertyRental.Application.Interfaces;
+using PropertyRental.Application.Interfaces.Repositories;
+using PropertyRental.Application.Interfaces.Services;
 using PropertyRental.Application.PropertyManagement.Extensions;
-using PropertyRental.Application.PropertyManagement.Interfaces;
 using PropertyRental.Domain.Entities.PropertyEntities;
 
 namespace PropertyRental.Application.PropertyManagement.Commands.CreateUnit;

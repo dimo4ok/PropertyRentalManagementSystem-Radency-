@@ -2,8 +2,8 @@
 using PropertyRental.Application.Common.Errors;
 using PropertyRental.Application.Common.Mediator.Abstractions;
 using PropertyRental.Application.Common.Models;
+using PropertyRental.Application.Interfaces.Repositories;
 using PropertyRental.Application.PropertyManagement.Extensions;
-using PropertyRental.Application.PropertyManagement.Interfaces;
 using PropertyRental.Application.PropertyManagement.Models;
 using PropertyRental.Application.PropertyManagement.Models.Property;
 using PropertyRental.Domain.Entities.PropertyEntities;
@@ -23,7 +23,7 @@ public class GetPropertyByIdQueryHandler(
     {
         _logger.LogInformation("Getting property with id {PropertyId}.", query.Id);
 
-        var property = await _propertyRepository.GetByIdWithUnitsAsync(query.Id, false, cancellationToken);
+        var property = await _propertyRepository.GetByIdWithUnitsAndUnitTypesAsync(query.Id, false, cancellationToken);
         if (property is null)
         {
             _logger.LogWarning("Property with id {PropertyId} was not found.", query.Id);

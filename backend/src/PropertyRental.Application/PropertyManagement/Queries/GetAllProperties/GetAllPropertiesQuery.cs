@@ -2,4 +2,4 @@
 
 namespace PropertyRental.Application.PropertyManagement.Queries.GetAllProperties;
 
-public record GetAllPropertiesQuery(PaginationParams Params);
+public record GetAllPropertiesQuery(PaginationParams PaginationParams);

@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using PropertyRental.Application.Common.Mediator.Abstractions;
 using PropertyRental.Application.Common.Models;
 using PropertyRental.Application.Interfaces;
+using PropertyRental.Application.Interfaces.Repositories;
 using PropertyRental.Application.PropertyManagement.Extensions;
-using PropertyRental.Application.PropertyManagement.Interfaces;
 
 namespace PropertyRental.Application.PropertyManagement.Commands.CreateProperty;
 

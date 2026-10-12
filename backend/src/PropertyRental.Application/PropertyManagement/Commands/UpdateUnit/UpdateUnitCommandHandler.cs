@@ -4,7 +4,9 @@ using PropertyRental.Application.Common.Errors;
 using PropertyRental.Application.Common.Mediator.Abstractions;
 using PropertyRental.Application.Common.Models;
 using PropertyRental.Application.Interfaces;
-using PropertyRental.Application.PropertyManagement.Interfaces;
+using PropertyRental.Application.Interfaces.Queries;
+using PropertyRental.Application.Interfaces.Repositories;
+using PropertyRental.Application.Interfaces.Services;
 using PropertyRental.Domain.Entities.PropertyEntities;
 
 namespace PropertyRental.Application.PropertyManagement.Commands.UpdateUnit;
@@ -12,18 +14,22 @@ namespace PropertyRental.Application.PropertyManagement.Commands.UpdateUnit;
 public class UpdateUnitCommandHandler(
     IUnitRepository unitRepository,
     IUnitTypeService unitTypeService,
+    ILeaseQueries leaseQueries,
+    IRentalApplicationQueries rentalApplicationQueries,
     IUnitOfWork unitOfWork,
     ILogger<UpdateUnitCommandHandler> logger)
     : ICommandHandler<UpdateUnitCommand, Result>
 {
     private readonly IUnitRepository _unitRepository = unitRepository;
     private readonly IUnitTypeService _unitTypeService = unitTypeService;
+    private readonly ILeaseQueries _leaseQueries = leaseQueries;
+    private readonly IRentalApplicationQueries _rentalApplicationQueries = rentalApplicationQueries;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly ILogger<UpdateUnitCommandHandler> _logger = logger;
 
     public async Task<Result> ExecuteAsync(UpdateUnitCommand command, CancellationToken cancellationToken)
     {
-        var unit = await _unitRepository.GetByIdAsync(command.Id, true, cancellationToken);
+        var unit = await _unitRepository.GetByIdWithUnitTypesAsync(command.Id, true, cancellationToken);
         if (unit is null)
         {
             _logger.LogWarning("Unit {UnitId} was not found.", command.Id);
@@ -37,11 +43,28 @@ public class UpdateUnitCommandHandler(
         {
             var unitTypeResult = await _unitTypeService.ValidateAsync(command.Model.UnitTypeId, cancellationToken);
             if (!unitTypeResult.IsSuccess)
+            {
+                _logger.LogWarning("Unit type {UnitTypeId} cannot be assigned to unit {UnitId}.", command.Model.UnitTypeId, unit.Id); 
                 return unitTypeResult;
+            }
+        }
+
+        if (await _leaseQueries.HasActiveLeaseAsync(unit.Id, cancellationToken))
+        {
+            _logger.LogWarning("Unit {UnitId} cannot be updated because it has an active lease.", unit.Id);
+
+            return Result.Fail(UnitErrors.UnitHasActiveLease, StatusCodes.Status409Conflict);
+        }
+
+        if (await _rentalApplicationQueries.HasSubmittedOrApprovedApplicationForUnitAsync(unit.Id, cancellationToken))
+        {
+            _logger.LogWarning("Unit {UnitId} cannot be updated because it has a submitted or approved application.", unit.Id);
+
+            return Result.Fail(UnitErrors.UnitHasSubmittedOrApprovedApplication, StatusCodes.Status409Conflict);
         }
 
         unit.UnitNumber = command.Model.UnitNumber;
-        unit.Bedrooms = command.Model.Bedrooms;
+        unit.Bedrooms = command.Model.Bedrooms;     
         unit.MonthlyRent = command.Model.MonthlyRent;
         unit.UnitTypeId = command.Model.UnitTypeId;
         
