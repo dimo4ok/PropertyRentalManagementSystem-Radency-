@@ -5,10 +5,8 @@ using PropertyRental.Application.Authentification.Services;
 using PropertyRental.Application.Authentification.Validators;
 using PropertyRental.Application.Common.Mediator;
 using PropertyRental.Application.Common.Mediator.Abstractions;
-using PropertyRental.Application.PropertyManagement.Interfaces;
-using PropertyRental.Application.PropertyManagement.Services;
-using PropertyRental.Application.RentalManagement.Interfaces;
-using PropertyRental.Application.RentalManagement.Services;
+using PropertyRental.Application.Interfaces.Services;
+using PropertyRental.Application.Services;
 
 namespace PropertyRental.Application.Common.Extensions;
 
@@ -19,9 +17,7 @@ public static class ApplicationExtensions
         services.AddScoped<IMediator, Mediator.Mediator>().AddMediatorHandlers();
         services.AddScoped<ITokenFactory, TokenFactory>();
 
-        services.AddScoped<IUnitService, UnitService>();
         services.AddScoped<IUnitTypeService, UnitTypeService>();
-        services.AddScoped<IRentalApplicationService, RentalApplicationService>();
 
         //validator
         services.AddValidatorsFromAssembly(typeof(SignInModelValidator).Assembly);
