@@ -5,8 +5,10 @@ using PropertyRental.API.Extensions;
 using PropertyRental.API.PropertyManagement;
 using PropertyRental.API.PropertyManagement.Property;
 using PropertyRental.API.PropertyManagement.Unit;
+using PropertyRental.API.RentalManagement.RentalApplication;
 using PropertyRental.Application.Common.Extensions;
 using PropertyRental.Infrastructure;
+using PropertyRental.Infrastructure.Extensions;
 using PropertyRental.Infrastructure.Persistence;
 using PropertyRental.Infrastructure.Persistence.Seeding;
 using Serilog;
@@ -52,7 +54,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapAuthEndpoints();
+
 app.MapPropertyEndpoints();
 app.MapUnitEndpoints();
+
+app.MapManagerRentalApplicationEndpoints();
+app.MapApplicantRentalApplicationEndpoints();
 
 app.Run();
