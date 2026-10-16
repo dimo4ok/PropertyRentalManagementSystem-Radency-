@@ -1,0 +1,3 @@
+﻿namespace PropertyRental.Application.RentalManagement.Models.RentalApplication;
+
+public record ApproveRentalApplicationModel(string RowVersion);

@@ -1,0 +1,28 @@
+﻿using FitCoachHub.Application.Common.Models;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.Identity;
+
+namespace PropertyRental.Application.Common.Extensions;
+
+public static class ErrorExtensions
+{
+    public static List<Error> ToErrorList(this IEnumerable<IdentityError> errors) =>
+        errors
+            .Select(x => x.ToError())
+            .ToList();
+
+    private static Error ToError(this IdentityError error) =>
+        new(error.Code, error.Description);
+
+    public static List<Error> ToErrorList(this IEnumerable<ValidationFailure> failures) =>
+        failures
+            .Select(x => x.ToError())
+            .Distinct()
+            .ToList();
+
+    private static Error ToError(this ValidationFailure failures) =>
+        new(failures.ErrorCode ?? failures.PropertyName ?? "ValidationError", failures.ErrorMessage);
+
+    public static Error ToError(this Exception ex) =>
+        new($"Exception.{ex.GetType().Name}", ex.Message);
+}

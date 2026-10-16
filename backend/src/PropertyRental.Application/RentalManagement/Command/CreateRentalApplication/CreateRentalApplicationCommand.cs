@@ -1,0 +1,5 @@
+﻿using PropertyRental.Application.RentalManagement.Models.RentalApplication;
+
+namespace PropertyRental.Application.RentalManagement.Command.CreateRentalApplication;
+
+public record CreateRentalApplicationCommand(CreateRentalApplicationModel Model);

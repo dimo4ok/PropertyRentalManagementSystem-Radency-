@@ -1,0 +1,5 @@
+﻿using PropertyRental.Application.RentalManagement.Models.RentalApplication;
+
+namespace PropertyRental.Application.RentalManagement.Query.GetApplicantRentalApplications;
+
+public record GetAllApplicantRentalApplicationsQuery(GetAllRentalApplicationsModel Model); 
