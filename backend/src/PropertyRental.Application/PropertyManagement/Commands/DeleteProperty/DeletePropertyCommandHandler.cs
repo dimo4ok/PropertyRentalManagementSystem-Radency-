@@ -26,7 +26,7 @@ public class DeletePropertyCommandHandler(
     {
         _logger.LogInformation("Deleting property with id {PropertyId}.", command.Id);
 
-        var property = await _propertyRepository.GetByIdAsync(command.Id, true, cancellationToken);
+        var property = await _propertyRepository.GetByIdWithUnitsAndUnitTypesAsync(command.Id, true, cancellationToken);
         if (property is null)
         {
             _logger.LogWarning("Property with id {PropertyId} was not found.", command.Id);
